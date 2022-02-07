@@ -3,9 +3,10 @@ import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 
 
-
 export async function register(req, res) {
+    const user = req.body;
 
+  
     const passwordHash = bcrypt.hashSync(user.password, 10);
 
     try {
@@ -20,7 +21,7 @@ export async function register(req, res) {
 
 export async function login(req, res) {
     const { email, password } = req.body;
-
+   
     const user = await db.collection("users").findOne({ email });
     if (!user) {
         return res.sendStatus(401);
@@ -32,13 +33,13 @@ export async function login(req, res) {
             delete user.email;
             delete user.password;
 
-            const data = { ...user, token };
+            const data = {...user,token};
             return res.send(data);
         }
         res.sendStatus(401);
-
+        
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);
+    res.sendStatus(500);
     }
 }

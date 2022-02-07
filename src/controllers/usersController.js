@@ -1,9 +1,7 @@
 import db from "../db.js";
 export async function  users(req, res){
 
-    const authorization = req.headers.authorization;
-    const token = authorization?.replace('Bearer ', '');
-  
+     
     try {
       const session = await db.collection("sessions").findOne({ token });
       if (!session) {
